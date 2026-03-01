@@ -2,738 +2,817 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>診断士一次試験 過去問演習</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="RMC Study">
+<meta name="theme-color" content="#0f1f3d">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="apple-touch-icon" sizes="152x152" href="icon-152.png">
+<link rel="apple-touch-icon" sizes="120x120" href="icon-120.png">
+<title>RMC Study</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;600;700&family=Noto+Sans+JP:wght@300;400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg: #0f1117;
-    --surface: #1a1d27;
-    --surface2: #232636;
-    --border: #2e3250;
-    --accent: #4f8ef7;
-    --accent2: #7c5cbf;
-    --green: #34d399;
-    --red: #f87171;
-    --yellow: #fbbf24;
-    --text: #e2e8f0;
-    --text2: #94a3b8;
-    --text3: #64748b;
-  }
+:root {
+  --navy: #0f1f3d;
+  --navy2: #162847;
+  --navy3: #1e3560;
+  --border: #243d6a;
+  --blue: #4a9eff;
+  --blue2: #7bc4ff;
+  --green: #34d399;
+  --red: #f87171;
+  --yellow: #fbbf24;
+  --text: #e8edf5;
+  --text2: #8fa8cc;
+  --text3: #4a6490;
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+}
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Noto Sans JP', sans-serif;
-    min-height: 100vh;
-  }
+html, body {
+  height: 100%;
+  overflow: hidden;
+  background: var(--navy);
+  color: var(--text);
+  font-family: 'Noto Sans JP', sans-serif;
+}
 
-  /* ===== HEADER ===== */
-  header {
-    background: linear-gradient(135deg, #0f1117 0%, #1a1d27 100%);
-    border-bottom: 1px solid var(--border);
-    padding: 0 24px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 60px;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-  }
-  .logo {
-    font-family: 'Noto Serif JP', serif;
-    font-size: 18px;
-    font-weight: 700;
-    letter-spacing: 0.02em;
-    background: linear-gradient(90deg, var(--accent), var(--accent2));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-  .logo span { font-size: 12px; opacity: 0.7; -webkit-text-fill-color: var(--text2); }
-  .header-nav {
-    display: flex;
-    gap: 4px;
-  }
-  .nav-btn {
-    background: none;
-    border: 1px solid transparent;
-    color: var(--text2);
-    padding: 6px 14px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-family: 'Noto Sans JP', sans-serif;
-    font-size: 13px;
-    transition: all 0.2s;
-  }
-  .nav-btn:hover { background: var(--surface2); color: var(--text); }
-  .nav-btn.active { background: var(--surface2); border-color: var(--border); color: var(--accent); }
+/* ===== APP SHELL ===== */
+.app-shell {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  height: 100dvh;
+}
 
-  /* ===== LAYOUT ===== */
-  .app {
-    max-width: 960px;
-    margin: 0 auto;
-    padding: 24px 16px;
-  }
+/* ===== STATUS BAR AREA ===== */
+.status-bar {
+  height: calc(var(--safe-top) + 0px);
+  background: var(--navy);
+  flex-shrink: 0;
+}
 
-  /* ===== VIEWS ===== */
-  .view { display: none; animation: fadeIn 0.3s ease; }
-  .view.active { display: block; }
-  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+/* ===== HEADER ===== */
+.app-header {
+  background: var(--navy);
+  border-bottom: 1px solid var(--border);
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+.app-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.app-logo-icon {
+  width: 32px;
+  height: 32px;
+  background: linear-gradient(135deg, var(--navy3), var(--navy2));
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+}
+.app-logo-text {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--blue2);
+}
+.app-logo-sub {
+  font-size: 10px;
+  color: var(--text3);
+  letter-spacing: 0.05em;
+  margin-top: 1px;
+}
+.header-right {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--text3);
+  text-align: right;
+}
 
-  /* ===== TOP / FILTER AREA ===== */
-  .filter-bar {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 12px;
-    margin-bottom: 20px;
-  }
-  @media (max-width: 600px) { .filter-bar { grid-template-columns: 1fr 1fr; } }
-  .filter-select {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    color: var(--text);
-    padding: 10px 14px;
-    border-radius: 8px;
-    font-family: 'Noto Sans JP', sans-serif;
-    font-size: 13px;
-    cursor: pointer;
-    appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2364748b' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 12px center;
-    padding-right: 32px;
-    transition: border-color 0.2s;
-  }
-  .filter-select:focus { outline: none; border-color: var(--accent); }
+/* ===== CONTENT AREA ===== */
+.content-area {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  padding: 16px;
+  padding-bottom: calc(16px + var(--safe-bottom));
+}
 
-  .start-btn {
-    background: linear-gradient(135deg, var(--accent), var(--accent2));
-    border: none;
-    color: white;
-    padding: 12px 28px;
-    border-radius: 8px;
-    font-family: 'Noto Sans JP', sans-serif;
-    font-size: 14px;
-    font-weight: 700;
-    cursor: pointer;
-    letter-spacing: 0.05em;
-    transition: opacity 0.2s, transform 0.1s;
-    width: 100%;
-    margin-bottom: 24px;
-  }
-  .start-btn:hover { opacity: 0.9; }
-  .start-btn:active { transform: scale(0.99); }
+/* ===== BOTTOM TAB BAR ===== */
+.tab-bar {
+  display: flex;
+  background: var(--navy);
+  border-top: 1px solid var(--border);
+  padding-bottom: var(--safe-bottom);
+  flex-shrink: 0;
+}
+.tab-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 0 8px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  color: var(--text3);
+  font-family: 'Noto Sans JP', sans-serif;
+  transition: color 0.2s;
+  gap: 4px;
+}
+.tab-item.active { color: var(--blue); }
+.tab-item .tab-icon { font-size: 20px; line-height: 1; }
+.tab-item .tab-label { font-size: 10px; letter-spacing: 0.03em; }
 
-  /* ===== STATS CARDS ===== */
-  .stats-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 12px;
-    margin-bottom: 24px;
-  }
-  @media (max-width: 600px) { .stats-grid { grid-template-columns: repeat(2, 1fr); } }
-  .stat-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 16px;
-    text-align: center;
-  }
-  .stat-card .val {
-    font-size: 28px;
-    font-weight: 700;
-    font-family: 'DM Mono', monospace;
-    margin-bottom: 4px;
-  }
-  .stat-card .val.accent { color: var(--accent); }
-  .stat-card .val.green { color: var(--green); }
-  .stat-card .val.red { color: var(--red); }
-  .stat-card .val.yellow { color: var(--yellow); }
-  .stat-card .label { font-size: 11px; color: var(--text3); letter-spacing: 0.05em; }
+/* ===== VIEWS ===== */
+.view { display: none; animation: fadeUp 0.25s ease; }
+.view.active { display: block; }
+@keyframes fadeUp { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
 
-  /* ===== SUBJECT PROGRESS ===== */
-  .section-title {
-    font-family: 'Noto Serif JP', serif;
-    font-size: 15px;
-    color: var(--text2);
-    margin-bottom: 12px;
-    padding-bottom: 8px;
-    border-bottom: 1px solid var(--border);
-    letter-spacing: 0.05em;
-  }
-  .subject-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 24px; }
-  .subject-row {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 12px 16px;
-  }
-  .subject-name { font-size: 13px; width: 200px; flex-shrink: 0; }
-  @media (max-width: 600px) { .subject-name { width: 120px; font-size: 11px; } }
-  .progress-bar-wrap { flex: 1; background: var(--surface2); border-radius: 4px; height: 8px; overflow: hidden; }
-  .progress-bar-fill { height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--accent), var(--green)); transition: width 0.5s ease; }
-  .subject-pct { font-family: 'DM Mono', monospace; font-size: 13px; color: var(--accent); width: 42px; text-align: right; flex-shrink: 0; }
-  .subject-count { font-size: 11px; color: var(--text3); width: 60px; text-align: right; flex-shrink: 0; }
+/* ===== HOME VIEW ===== */
+.filter-section { margin-bottom: 16px; }
+.filter-row { display: flex; gap: 8px; margin-bottom: 8px; }
+.filter-select {
+  flex: 1;
+  background: var(--navy2);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 11px 12px;
+  border-radius: 10px;
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 13px;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath fill='%234a6490' d='M5 7L0 2h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  padding-right: 28px;
+}
+.filter-select:focus { outline: none; border-color: var(--blue); }
 
-  /* ===== QUIZ VIEW ===== */
-  .quiz-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-  }
-  .quiz-meta { font-size: 12px; color: var(--text3); display: flex; gap: 16px; }
-  .quiz-progress-bar { background: var(--surface2); height: 4px; border-radius: 2px; margin-bottom: 24px; overflow: hidden; }
-  .quiz-progress-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent2)); transition: width 0.3s; }
-  .quit-btn {
-    background: none;
-    border: 1px solid var(--border);
-    color: var(--text3);
-    padding: 6px 12px;
-    border-radius: 6px;
-    font-size: 12px;
-    cursor: pointer;
-    font-family: 'Noto Sans JP', sans-serif;
-    transition: all 0.2s;
-  }
-  .quit-btn:hover { border-color: var(--red); color: var(--red); }
+.start-btn {
+  width: 100%;
+  background: linear-gradient(135deg, #1e3a7a, #2d5cb8);
+  border: 1px solid var(--blue);
+  color: white;
+  padding: 15px;
+  border-radius: 12px;
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  letter-spacing: 0.08em;
+  transition: all 0.15s;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 4px 20px rgba(74,158,255,0.2);
+}
+.start-btn:active { transform: scale(0.98); opacity: 0.9; }
 
-  .question-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 28px;
-    margin-bottom: 20px;
-  }
-  .question-badge {
-    display: inline-flex;
-    gap: 8px;
-    margin-bottom: 16px;
-  }
-  .badge {
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    color: var(--text3);
-    font-size: 11px;
-    padding: 3px 10px;
-    border-radius: 4px;
-    letter-spacing: 0.05em;
-  }
-  .badge.subject-badge { color: var(--accent); border-color: rgba(79,142,247,0.3); background: rgba(79,142,247,0.08); }
-  .question-text {
-    font-family: 'Noto Serif JP', serif;
-    font-size: 16px;
-    line-height: 1.8;
-    color: var(--text);
-  }
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.stat-card {
+  background: var(--navy2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px;
+  text-align: center;
+}
+.stat-val {
+  font-family: 'DM Mono', monospace;
+  font-size: 26px;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+.stat-val.blue { color: var(--blue); }
+.stat-val.green { color: var(--green); }
+.stat-val.red { color: var(--red); }
+.stat-val.yellow { color: var(--yellow); }
+.stat-label { font-size: 11px; color: var(--text3); }
 
-  .choices { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
-  .choice-btn {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    color: var(--text);
-    padding: 14px 20px;
-    border-radius: 8px;
-    text-align: left;
-    cursor: pointer;
-    font-family: 'Noto Sans JP', sans-serif;
-    font-size: 14px;
-    line-height: 1.6;
-    transition: all 0.15s;
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-  }
-  .choice-btn:hover:not(.disabled) { border-color: var(--accent); background: rgba(79,142,247,0.05); }
-  .choice-label {
-    font-family: 'DM Mono', monospace;
-    font-size: 12px;
-    color: var(--text3);
-    margin-top: 2px;
-    flex-shrink: 0;
-    width: 20px;
-  }
-  .choice-btn.selected { border-color: var(--accent); background: rgba(79,142,247,0.1); }
-  .choice-btn.correct { border-color: var(--green); background: rgba(52,211,153,0.1); }
-  .choice-btn.incorrect { border-color: var(--red); background: rgba(248,113,113,0.1); }
-  .choice-btn.show-correct { border-color: var(--green); background: rgba(52,211,153,0.08); }
-  .choice-btn.disabled { cursor: default; }
+.section-hd {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 13px;
+  color: var(--text3);
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+  letter-spacing: 0.06em;
+}
+.subject-list { display: flex; flex-direction: column; gap: 8px; }
+.subject-row {
+  background: var(--navy2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.subject-name { font-size: 12px; width: 130px; flex-shrink: 0; line-height: 1.3; }
+.prog-wrap { flex: 1; background: var(--navy3); border-radius: 3px; height: 6px; overflow: hidden; }
+.prog-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, var(--blue), var(--green)); transition: width 0.6s ease; }
+.subject-pct { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--blue); width: 38px; text-align: right; flex-shrink: 0; }
 
-  .result-banner {
-    display: none;
-    border-radius: 8px;
-    padding: 14px 20px;
-    margin-bottom: 16px;
-    font-size: 14px;
-    font-weight: 500;
-    align-items: center;
-    gap: 10px;
-  }
-  .result-banner.show { display: flex; animation: fadeIn 0.2s ease; }
-  .result-banner.correct-banner { background: rgba(52,211,153,0.1); border: 1px solid rgba(52,211,153,0.3); color: var(--green); }
-  .result-banner.wrong-banner { background: rgba(248,113,113,0.1); border: 1px solid rgba(248,113,113,0.3); color: var(--red); }
+/* ===== QUIZ VIEW ===== */
+.quiz-topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+.quiz-counter { font-family: 'DM Mono', monospace; font-size: 13px; color: var(--text2); }
+.quiz-subject { font-size: 11px; color: var(--text3); }
+.quit-btn {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--text3);
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  cursor: pointer;
+  font-family: 'Noto Sans JP', sans-serif;
+  transition: all 0.2s;
+}
+.quit-btn:active { border-color: var(--red); color: var(--red); }
 
-  .explanation-box {
-    display: none;
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 16px 20px;
-    font-size: 13px;
-    line-height: 1.8;
-    color: var(--text2);
-    margin-bottom: 20px;
-  }
-  .explanation-box.show { display: block; animation: fadeIn 0.2s ease; }
-  .explanation-box strong { color: var(--yellow); display: block; margin-bottom: 8px; font-size: 12px; letter-spacing: 0.05em; }
+.quiz-prog-bar { background: var(--navy3); height: 3px; border-radius: 2px; margin-bottom: 16px; overflow: hidden; }
+.quiz-prog-fill { height: 100%; background: linear-gradient(90deg, var(--blue), var(--blue2)); transition: width 0.3s; }
 
-  .quiz-actions { display: flex; gap: 10px; justify-content: flex-end; }
-  .action-btn {
-    padding: 12px 24px;
-    border-radius: 8px;
-    font-family: 'Noto Sans JP', sans-serif;
-    font-size: 13px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.2s;
-    letter-spacing: 0.05em;
-  }
-  .btn-primary {
-    background: linear-gradient(135deg, var(--accent), var(--accent2));
-    border: none;
-    color: white;
-  }
-  .btn-primary:hover { opacity: 0.9; }
-  .btn-secondary {
-    background: none;
-    border: 1px solid var(--border);
-    color: var(--text2);
-  }
-  .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+.q-card {
+  background: var(--navy2);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 18px;
+  margin-bottom: 14px;
+}
+.q-badges { display: flex; gap: 6px; margin-bottom: 12px; flex-wrap: wrap; }
+.badge {
+  font-size: 10px;
+  padding: 3px 8px;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  color: var(--text3);
+  letter-spacing: 0.04em;
+}
+.badge.blue { color: var(--blue); border-color: rgba(74,158,255,0.3); background: rgba(74,158,255,0.07); }
+.q-text {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 15px;
+  line-height: 1.85;
+  color: var(--text);
+}
 
-  /* ===== RESULT VIEW ===== */
-  .result-summary {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 32px;
-    text-align: center;
-    margin-bottom: 24px;
-  }
-  .result-score {
-    font-family: 'DM Mono', monospace;
-    font-size: 64px;
-    font-weight: 500;
-    background: linear-gradient(135deg, var(--accent), var(--green));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    margin-bottom: 4px;
-  }
-  .result-label { color: var(--text3); font-size: 13px; margin-bottom: 24px; }
-  .result-detail { display: flex; justify-content: center; gap: 32px; margin-bottom: 24px; }
-  .result-detail-item { text-align: center; }
-  .result-detail-item .n { font-family: 'DM Mono', monospace; font-size: 24px; font-weight: 500; }
-  .result-detail-item .n.g { color: var(--green); }
-  .result-detail-item .n.r { color: var(--red); }
-  .result-detail-item .l { font-size: 11px; color: var(--text3); margin-top: 2px; }
+.choices { display: flex; flex-direction: column; gap: 9px; margin-bottom: 14px; }
+.choice-btn {
+  background: var(--navy2);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 13px 14px;
+  border-radius: 10px;
+  text-align: left;
+  cursor: pointer;
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 13px;
+  line-height: 1.6;
+  transition: all 0.12s;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  width: 100%;
+}
+.choice-btn:active:not(.disabled) { background: rgba(74,158,255,0.1); border-color: var(--blue); }
+.choice-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--text3);
+  margin-top: 2px;
+  flex-shrink: 0;
+  width: 18px;
+}
+.choice-btn.correct { border-color: var(--green); background: rgba(52,211,153,0.1); }
+.choice-btn.incorrect { border-color: var(--red); background: rgba(248,113,113,0.1); }
+.choice-btn.show-correct { border-color: var(--green); background: rgba(52,211,153,0.07); }
+.choice-btn.disabled { cursor: default; }
 
-  /* ===== HISTORY VIEW ===== */
-  .history-list { display: flex; flex-direction: column; gap: 8px; }
-  .history-item {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 14px 18px;
-    display: flex;
-    align-items: center;
-    gap: 16px;
-  }
-  .history-date { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--text3); width: 90px; flex-shrink: 0; }
-  .history-subject { font-size: 12px; color: var(--text2); flex: 1; }
-  .history-score { font-family: 'DM Mono', monospace; font-size: 18px; font-weight: 500; color: var(--accent); width: 52px; text-align: right; }
-  .history-pct { font-size: 11px; color: var(--text3); width: 42px; text-align: right; }
+.result-banner {
+  display: none;
+  border-radius: 10px;
+  padding: 12px 16px;
+  margin-bottom: 12px;
+  font-size: 14px;
+  font-weight: 500;
+  align-items: center;
+  gap: 8px;
+}
+.result-banner.show { display: flex; animation: fadeUp 0.2s ease; }
+.correct-banner { background: rgba(52,211,153,0.1); border: 1px solid rgba(52,211,153,0.3); color: var(--green); }
+.wrong-banner { background: rgba(248,113,113,0.1); border: 1px solid rgba(248,113,113,0.3); color: var(--red); }
 
-  .empty-state {
-    text-align: center;
-    padding: 60px 20px;
-    color: var(--text3);
-    font-size: 14px;
-  }
-  .empty-state .icon { font-size: 40px; margin-bottom: 12px; opacity: 0.4; }
+.exp-box {
+  display: none;
+  background: var(--navy3);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px;
+  font-size: 12px;
+  line-height: 1.8;
+  color: var(--text2);
+  margin-bottom: 14px;
+}
+.exp-box.show { display: block; animation: fadeUp 0.2s ease; }
+.exp-box strong { color: var(--yellow); display: block; margin-bottom: 6px; font-size: 11px; letter-spacing: 0.05em; }
 
-  /* ===== REVIEW VIEW ===== */
-  .review-question {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 20px;
-    margin-bottom: 12px;
-  }
-  .review-question .q-text { font-size: 14px; line-height: 1.7; margin-bottom: 12px; font-family: 'Noto Serif JP', serif; }
-  .review-choices { display: flex; flex-direction: column; gap: 6px; }
-  .review-choice {
-    padding: 8px 14px;
-    border-radius: 6px;
-    font-size: 13px;
-    border: 1px solid var(--border);
-    display: flex;
-    gap: 10px;
-    align-items: flex-start;
-  }
-  .review-choice.my-wrong { border-color: var(--red); background: rgba(248,113,113,0.08); color: var(--red); }
-  .review-choice.answer { border-color: var(--green); background: rgba(52,211,153,0.08); color: var(--green); }
-  .review-exp { font-size: 12px; color: var(--text3); margin-top: 10px; line-height: 1.7; padding: 10px 14px; background: var(--surface2); border-radius: 6px; }
+.quiz-actions { display: flex; gap: 8px; justify-content: flex-end; padding-bottom: 8px; }
+.btn-primary {
+  background: linear-gradient(135deg, #1e3a7a, #2d5cb8);
+  border: 1px solid var(--blue);
+  color: white;
+  padding: 12px 22px;
+  border-radius: 10px;
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+.btn-primary:active { opacity: 0.85; }
+.btn-secondary {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--text2);
+  padding: 12px 18px;
+  border-radius: 10px;
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 13px;
+  cursor: pointer;
+}
 
-  .review-badges { display: flex; gap: 6px; margin-bottom: 12px; flex-wrap: wrap; }
+/* ===== RESULT VIEW ===== */
+.result-card {
+  background: var(--navy2);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 32px 20px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+.result-pct {
+  font-family: 'DM Mono', monospace;
+  font-size: 72px;
+  font-weight: 500;
+  background: linear-gradient(135deg, var(--blue), var(--green));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.result-sub { color: var(--text3); font-size: 12px; margin-bottom: 24px; }
+.result-nums { display: flex; justify-content: center; gap: 36px; margin-bottom: 28px; }
+.result-num-item { text-align: center; }
+.result-num { font-family: 'DM Mono', monospace; font-size: 28px; font-weight: 500; }
+.result-num.g { color: var(--green); }
+.result-num.r { color: var(--red); }
+.result-num.w { color: var(--text2); }
+.result-num-label { font-size: 11px; color: var(--text3); margin-top: 2px; }
+.result-actions { display: flex; flex-direction: column; gap: 10px; }
+.result-actions .btn-primary, .result-actions .btn-secondary { width: 100%; text-align: center; padding: 14px; }
+
+/* ===== REVIEW VIEW ===== */
+.review-card {
+  background: var(--navy2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 12px;
+}
+.review-q { font-family: 'Noto Serif JP', serif; font-size: 14px; line-height: 1.75; margin-bottom: 12px; }
+.review-choices { display: flex; flex-direction: column; gap: 6px; }
+.review-choice {
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  border: 1px solid var(--border);
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  line-height: 1.5;
+}
+.review-choice.answer { border-color: var(--green); background: rgba(52,211,153,0.08); color: var(--green); }
+.review-exp-mini { font-size: 11px; color: var(--text3); margin-top: 10px; line-height: 1.7; padding: 10px 12px; background: var(--navy3); border-radius: 8px; }
+
+/* ===== HISTORY VIEW ===== */
+.history-item {
+  background: var(--navy2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 13px 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+.history-date { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--text3); width: 70px; flex-shrink: 0; line-height: 1.4; }
+.history-label { font-size: 12px; color: var(--text2); flex: 1; line-height: 1.4; }
+.history-score { font-family: 'DM Mono', monospace; font-size: 15px; color: var(--blue); flex-shrink: 0; }
+.history-pct { font-size: 11px; color: var(--text3); flex-shrink: 0; width: 36px; text-align: right; }
+
+.empty-state { text-align: center; padding: 50px 20px; color: var(--text3); font-size: 13px; }
+.empty-icon { font-size: 36px; margin-bottom: 12px; opacity: 0.4; }
+
+/* ===== PWA INSTALL BANNER ===== */
+.install-banner {
+  display: none;
+  background: linear-gradient(135deg, var(--navy3), var(--navy2));
+  border: 1px solid var(--blue);
+  border-radius: 12px;
+  padding: 14px 16px;
+  margin-bottom: 16px;
+  align-items: center;
+  gap: 12px;
+  animation: fadeUp 0.3s ease;
+}
+.install-banner.show { display: flex; }
+.install-text { flex: 1; font-size: 12px; line-height: 1.6; color: var(--text2); }
+.install-text strong { color: var(--blue); display: block; font-size: 13px; margin-bottom: 2px; }
+.install-steps { font-size: 11px; color: var(--text3); margin-top: 4px; }
+.install-close {
+  background: none;
+  border: none;
+  color: var(--text3);
+  font-size: 18px;
+  cursor: pointer;
+  padding: 4px;
+  flex-shrink: 0;
+}
 </style>
 </head>
 <body>
 
-<header>
-  <div>
-    <div class="logo">診断士一次試験 過去問演習</div>
-  </div>
-  <nav class="header-nav">
-    <button class="nav-btn active" onclick="showView('home')">ホーム</button>
-    <button class="nav-btn" onclick="showView('review')">間違い復習</button>
-    <button class="nav-btn" onclick="showView('history')">履歴</button>
+<div class="app-shell">
+  <div class="status-bar"></div>
+
+  <header class="app-header">
+    <div class="app-logo">
+      <div class="app-logo-icon">📚</div>
+      <div>
+        <div class="app-logo-text">RMC Study</div>
+        <div class="app-logo-sub">中小企業診断士 一次試験</div>
+      </div>
+    </div>
+    <div class="header-right" id="header-date"></div>
+  </header>
+
+  <div class="content-area" id="content-area">
+
+    <!-- ===== HOME ===== -->
+    <div id="view-home" class="view active">
+
+      <!-- iOS Install Banner -->
+      <div class="install-banner" id="install-banner">
+        <div class="install-text">
+          <strong>📲 ホーム画面に追加しよう</strong>
+          <span class="install-steps">Safari の 🔗 共有ボタン → 「ホーム画面に追加」をタップ</span>
+        </div>
+        <button class="install-close" onclick="dismissInstall()">✕</button>
+      </div>
+
+      <div class="filter-section">
+        <div class="filter-row">
+          <select class="filter-select" id="filter-subject">
+            <option value="all">全科目</option>
+            <option value="経済学・経済政策">経済学・経済政策</option>
+            <option value="財務・会計">財務・会計</option>
+            <option value="企業経営理論">企業経営理論</option>
+            <option value="運営管理">運営管理</option>
+            <option value="経営法務">経営法務</option>
+            <option value="経営情報システム">経営情報システム</option>
+            <option value="中小企業経営・政策">中小企業経営・政策</option>
+          </select>
+          <select class="filter-select" id="filter-year">
+            <option value="all">全年度</option>
+            <option value="2024">2024年</option>
+            <option value="2023">2023年</option>
+            <option value="2022">2022年</option>
+            <option value="2021">2021年</option>
+            <option value="2020">2020年</option>
+            <option value="2019">2019年</option>
+            <option value="2018">2018年</option>
+            <option value="2017">2017年</option>
+            <option value="2016">2016年</option>
+            <option value="2015">2015年</option>
+          </select>
+        </div>
+        <select class="filter-select" id="filter-mode" style="width:100%">
+          <option value="all">全問出題</option>
+          <option value="wrong">苦手問題のみ</option>
+          <option value="unseen">未回答のみ</option>
+        </select>
+      </div>
+
+      <button class="start-btn" onclick="startQuiz()">▶ &nbsp;演習スタート</button>
+
+      <div class="stats-row">
+        <div class="stat-card"><div class="stat-val blue" id="s-total">0</div><div class="stat-label">総回答数</div></div>
+        <div class="stat-card"><div class="stat-val yellow" id="s-rate">--%</div><div class="stat-label">正答率</div></div>
+        <div class="stat-card"><div class="stat-val green" id="s-correct">0</div><div class="stat-label">正解数</div></div>
+        <div class="stat-card"><div class="stat-val red" id="s-wrong">0</div><div class="stat-label">間違い数</div></div>
+      </div>
+
+      <div class="section-hd">科目別 正答率</div>
+      <div class="subject-list" id="subject-list"></div>
+    </div>
+
+    <!-- ===== QUIZ ===== -->
+    <div id="view-quiz" class="view">
+      <div class="quiz-topbar">
+        <div>
+          <div class="quiz-counter" id="q-counter">1 / 10</div>
+          <div class="quiz-subject" id="q-subject-label">-</div>
+        </div>
+        <button class="quit-btn" onclick="quitQuiz()">中断</button>
+      </div>
+      <div class="quiz-prog-bar"><div class="quiz-prog-fill" id="quiz-prog"></div></div>
+
+      <div class="q-card">
+        <div class="q-badges">
+          <span class="badge blue" id="q-badge-sub">-</span>
+          <span class="badge" id="q-badge-year">-年</span>
+          <span class="badge" id="q-badge-num">第-問</span>
+        </div>
+        <div class="q-text" id="q-text">問題文</div>
+      </div>
+
+      <div class="result-banner" id="result-banner">
+        <span id="result-icon"></span>
+        <span id="result-msg"></span>
+      </div>
+
+      <div class="choices" id="choices"></div>
+
+      <div class="exp-box" id="exp-box">
+        <strong>📝 解説</strong>
+        <span id="exp-text"></span>
+      </div>
+
+      <div class="quiz-actions">
+        <button class="btn-secondary" id="btn-skip" onclick="nextQ(true)">スキップ</button>
+        <button class="btn-primary" id="btn-next" onclick="nextQ(false)" style="display:none">次の問題 →</button>
+      </div>
+    </div>
+
+    <!-- ===== RESULT ===== -->
+    <div id="view-result" class="view">
+      <div class="result-card">
+        <div class="result-pct" id="res-pct">0%</div>
+        <div class="result-sub">正答率</div>
+        <div class="result-nums">
+          <div class="result-num-item"><div class="result-num g" id="res-c">0</div><div class="result-num-label">正解</div></div>
+          <div class="result-num-item"><div class="result-num r" id="res-w">0</div><div class="result-num-label">不正解</div></div>
+          <div class="result-num-item"><div class="result-num w" id="res-t">0</div><div class="result-num-label">出題数</div></div>
+        </div>
+        <div class="result-actions">
+          <button class="btn-primary" onclick="showTab('home')">ホームへ</button>
+          <button class="btn-secondary" onclick="showResultReview()">間違いを見直す</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== REVIEW ===== -->
+    <div id="view-review" class="view">
+      <div class="section-hd">間違えた問題の復習</div>
+      <div id="review-list"></div>
+    </div>
+
+    <!-- ===== HISTORY ===== -->
+    <div id="view-history" class="view">
+      <div class="section-hd">演習履歴</div>
+      <div id="history-list"></div>
+    </div>
+
+  </div><!-- /content-area -->
+
+  <!-- ===== TAB BAR ===== -->
+  <nav class="tab-bar">
+    <button class="tab-item active" id="tab-home" onclick="showTab('home')">
+      <span class="tab-icon">🏠</span>
+      <span class="tab-label">ホーム</span>
+    </button>
+    <button class="tab-item" id="tab-review" onclick="showTab('review')">
+      <span class="tab-icon">📝</span>
+      <span class="tab-label">復習</span>
+    </button>
+    <button class="tab-item" id="tab-history" onclick="showTab('history')">
+      <span class="tab-icon">📊</span>
+      <span class="tab-label">履歴</span>
+    </button>
   </nav>
-</header>
-
-<div class="app">
-
-  <!-- ===== HOME VIEW ===== -->
-  <div id="view-home" class="view active">
-    <div class="filter-bar">
-      <select class="filter-select" id="filter-subject">
-        <option value="all">全科目</option>
-        <option value="経済学・経済政策">経済学・経済政策</option>
-        <option value="財務・会計">財務・会計</option>
-        <option value="企業経営理論">企業経営理論</option>
-        <option value="運営管理">運営管理</option>
-        <option value="経営法務">経営法務</option>
-        <option value="経営情報システム">経営情報システム</option>
-        <option value="中小企業経営・政策">中小企業経営・政策</option>
-      </select>
-      <select class="filter-select" id="filter-year">
-        <option value="all">全年度</option>
-        <option value="2024">2024年（令和6年）</option>
-        <option value="2023">2023年（令和5年）</option>
-        <option value="2022">2022年（令和4年）</option>
-        <option value="2021">2021年（令和3年）</option>
-        <option value="2020">2020年（令和2年）</option>
-        <option value="2019">2019年（令和元年）</option>
-        <option value="2018">2018年（平成30年）</option>
-        <option value="2017">2017年（平成29年）</option>
-        <option value="2016">2016年（平成28年）</option>
-        <option value="2015">2015年（平成27年）</option>
-      </select>
-      <select class="filter-select" id="filter-mode">
-        <option value="all">全問出題</option>
-        <option value="wrong">苦手問題のみ</option>
-        <option value="unseen">未回答のみ</option>
-      </select>
-    </div>
-    <button class="start-btn" onclick="startQuiz()">▶  演習開始</button>
-
-    <div class="stats-grid">
-      <div class="stat-card">
-        <div class="val accent" id="stat-total">0</div>
-        <div class="label">総回答数</div>
-      </div>
-      <div class="stat-card">
-        <div class="val green" id="stat-correct">0</div>
-        <div class="label">正解数</div>
-      </div>
-      <div class="stat-card">
-        <div class="val yellow" id="stat-rate">--%</div>
-        <div class="label">正答率</div>
-      </div>
-      <div class="stat-card">
-        <div class="val red" id="stat-wrong">0</div>
-        <div class="label">間違い数</div>
-      </div>
-    </div>
-
-    <div class="section-title">科目別 正答率</div>
-    <div class="subject-list" id="subject-list"></div>
-  </div>
-
-  <!-- ===== QUIZ VIEW ===== -->
-  <div id="view-quiz" class="view">
-    <div class="quiz-header">
-      <div class="quiz-meta">
-        <span id="q-counter">1 / 10</span>
-        <span id="q-subject-label">-</span>
-        <span id="q-year-label">-年</span>
-      </div>
-      <button class="quit-btn" onclick="quitQuiz()">中断</button>
-    </div>
-    <div class="quiz-progress-bar"><div class="quiz-progress-fill" id="quiz-prog"></div></div>
-
-    <div class="question-card">
-      <div class="question-badge">
-        <span class="badge subject-badge" id="q-badge-subject">-</span>
-        <span class="badge" id="q-badge-year">-年</span>
-        <span class="badge" id="q-badge-num">第-問</span>
-      </div>
-      <div class="question-text" id="question-text">問題文がここに表示されます。</div>
-    </div>
-
-    <div class="result-banner" id="result-banner">
-      <span id="result-icon"></span>
-      <span id="result-msg"></span>
-    </div>
-
-    <div class="choices" id="choices-container"></div>
-
-    <div class="explanation-box" id="explanation-box">
-      <strong>📝 解説</strong>
-      <span id="explanation-text"></span>
-    </div>
-
-    <div class="quiz-actions">
-      <button class="action-btn btn-secondary" id="btn-skip" onclick="nextQuestion(true)">スキップ</button>
-      <button class="action-btn btn-primary" id="btn-next" onclick="nextQuestion(false)" style="display:none">次の問題 →</button>
-    </div>
-  </div>
-
-  <!-- ===== RESULT VIEW ===== -->
-  <div id="view-result" class="view">
-    <div class="result-summary">
-      <div class="result-score" id="res-score">0</div>
-      <div class="result-label">正答率</div>
-      <div class="result-detail">
-        <div class="result-detail-item"><div class="n g" id="res-correct">0</div><div class="l">正解</div></div>
-        <div class="result-detail-item"><div class="n r" id="res-wrong">0</div><div class="l">不正解</div></div>
-        <div class="result-detail-item"><div class="n" id="res-total" style="color:var(--text2)">0</div><div class="l">出題数</div></div>
-      </div>
-      <div style="display:flex;gap:10px;justify-content:center">
-        <button class="action-btn btn-primary" onclick="showView('home')">ホームへ</button>
-        <button class="action-btn btn-secondary" onclick="showResultReview()">間違いを確認</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- ===== REVIEW VIEW ===== -->
-  <div id="view-review" class="view">
-    <div class="section-title">間違えた問題の復習</div>
-    <div id="review-list"></div>
-  </div>
-
-  <!-- ===== HISTORY VIEW ===== -->
-  <div id="view-history" class="view">
-    <div class="section-title">演習履歴</div>
-    <div id="history-list"></div>
-  </div>
-
 </div>
 
 <script>
-// ===========================
-// QUESTION DATA (サンプル問題)
-// 実際の過去問データに差し替えてください
-// ===========================
+// =====================
+// QUESTIONS DATA
+// =====================
 const QUESTIONS = [
-  // --- 経済学・経済政策 ---
-  {id:1, subject:"経済学・経済政策", year:2023, num:1,
+  {id:1,subject:"経済学・経済政策",year:2023,num:1,
    text:"財市場と貨幣市場が同時に均衡するIS-LM分析において、政府支出の増加が国民所得に与える影響に関する記述として、最も適切なものはどれか。",
    choices:["政府支出の増加は利子率を下落させ、民間投資を増加させる（クラウディング・イン）。","政府支出の増加は利子率を上昇させ、民間投資を減少させる（クラウディング・アウト）。","LM曲線が垂直のとき、財政政策は最も大きな乗数効果を発揮する。","IS曲線が水平のとき、財政政策の効果は最大となる。"],
-   answer:1, explanation:"政府支出が増加するとIS曲線が右シフトし、利子率が上昇します。これにより民間の投資支出が抑制される「クラウディング・アウト」効果が生じます。LM曲線が垂直（古典派的ケース）のとき財政政策の効果はゼロになり、IS曲線が水平（流動性の罠）のとき財政政策の効果は最大となります。"},
-  {id:2, subject:"経済学・経済政策", year:2023, num:2,
+   answer:1,explanation:"政府支出が増加するとIS曲線が右シフトし、利子率が上昇します。これにより民間投資が抑制される「クラウディング・アウト」効果が生じます。LM曲線が垂直のとき財政政策効果はゼロ、IS曲線が水平（流動性の罠）のとき効果は最大です。"},
+  {id:2,subject:"経済学・経済政策",year:2023,num:2,
    text:"完全競争市場における均衡に関する記述として、最も適切なものはどれか。",
    choices:["完全競争市場の長期均衡では、企業は超過利潤を得続けることができる。","完全競争市場では、個々の企業は市場価格を所与として行動するプライスメーカーである。","完全競争市場の長期均衡では、P=MC=ACが成立し、超過利潤はゼロになる。","需要が増加すると、短期では価格は変化せず数量のみが増加する。"],
-   answer:2, explanation:"完全競争市場の長期均衡では、超過利潤が存在すると新規参入が生じ、価格が下落します。最終的に価格（P）＝限界費用（MC）＝平均費用（AC）が成立し、超過利潤はゼロになります。"},
-  {id:3, subject:"経済学・経済政策", year:2022, num:3,
+   answer:2,explanation:"完全競争市場の長期均衡では超過利潤が存在すると新規参入が生じ、最終的にP＝MC＝ACが成立し、超過利潤はゼロになります。"},
+  {id:3,subject:"経済学・経済政策",year:2022,num:3,
    text:"消費者余剰と生産者余剰に関する記述として、最も適切なものはどれか。",
    choices:["消費者余剰は、消費者の支払ってもよいと思う最高価格と実際の市場価格との差の合計である。","独占市場では完全競争市場と比べて、社会的余剰は増加する。","生産者余剰は、生産者が受け取る価格と生産費用の差の合計で、常に正の値をとる。","課税によって消費者余剰と生産者余剰の合計は、税収と等しくなる。"],
-   answer:0, explanation:"消費者余剰は、消費者が財に対して支払ってもよいと考える最高価格（留保価格）と実際の市場価格との差の合計です。独占市場では死荷重が発生し、社会的余剰は完全競争より減少します。"},
-  // --- 財務・会計 ---
-  {id:4, subject:"財務・会計", year:2023, num:1,
+   answer:0,explanation:"消費者余剰は、支払ってもよい最高価格（留保価格）と実際の市場価格との差の合計です。独占市場では死荷重が発生し社会的余剰は完全競争より減少します。"},
+  {id:4,subject:"財務・会計",year:2023,num:1,
    text:"損益計算書の各段階利益に関する記述として、最も適切なものはどれか。",
    choices:["売上総利益は、売上高から販売費及び一般管理費を控除して求める。","営業利益は、売上総利益から営業外収益を加算し、営業外費用を控除して求める。","経常利益は、営業利益に営業外損益を加減して求める。","当期純利益は、税引前当期純利益から特別損益を加減して求める。"],
-   answer:2, explanation:"経常利益＝営業利益＋営業外収益−営業外費用で計算されます。売上総利益は売上高から売上原価を控除したもの、営業利益は売上総利益から販売費及び一般管理費を控除したものです。"},
-  {id:5, subject:"財務・会計", year:2023, num:2,
+   answer:2,explanation:"経常利益＝営業利益＋営業外収益−営業外費用です。売上総利益は売上高−売上原価、営業利益は売上総利益−販売費及び一般管理費です。"},
+  {id:5,subject:"財務・会計",year:2023,num:2,
    text:"貸借対照表における資産の分類に関する記述として、最も適切なものはどれか。",
    choices:["流動資産と固定資産の分類基準として、正常営業循環基準と1年基準が用いられ、どちらか短い方を適用する。","有形固定資産は、時間の経過や使用によって価値が減少しないため、減価償却の対象外である。","棚卸資産には、商品、製品、仕掛品、原材料などが含まれる。","繰延資産は、将来の期間に費用配分される資産で、長期前払費用とも呼ばれる。"],
-   answer:2, explanation:"棚卸資産には商品・製品・仕掛品・原材料・消耗品などが含まれます。流動固定の分類は正常営業循環基準が優先され、それに該当しないものに1年基準を適用します。有形固定資産は減価償却の対象です（ただし土地は除く）。"},
-  {id:6, subject:"財務・会計", year:2022, num:4,
+   answer:2,explanation:"棚卸資産には商品・製品・仕掛品・原材料などが含まれます。正常営業循環基準が優先適用され、それ以外に1年基準を適用します。"},
+  {id:6,subject:"財務・会計",year:2022,num:4,
    text:"ROE（自己資本利益率）をデュポン分析で分解した場合、ROEを構成する要素の組み合わせとして最も適切なものはどれか。",
    choices:["売上高純利益率 × 総資本回転率 × 自己資本比率","売上高純利益率 × 総資本回転率 × 財務レバレッジ","売上高営業利益率 × 総資本回転率 × 財務レバレッジ","売上高純利益率 × 固定資産回転率 × 財務レバレッジ"],
-   answer:1, explanation:"デュポン分析によるROEの分解：ROE＝純利益/自己資本＝（純利益/売上高）×（売上高/総資産）×（総資産/自己資本）＝売上高純利益率×総資産回転率×財務レバレッジです。"},
-  // --- 企業経営理論 ---
-  {id:7, subject:"企業経営理論", year:2023, num:1,
+   answer:1,explanation:"ROE＝売上高純利益率×総資産回転率×財務レバレッジ（＝総資産/自己資本）で分解されます。"},
+  {id:7,subject:"企業経営理論",year:2023,num:1,
    text:"ポーターの競争戦略論における「差別化戦略」に関する記述として、最も適切なものはどれか。",
    choices:["差別化戦略は、価格競争を主軸として競合他社との差異を生み出す戦略である。","差別化戦略を追求する企業は、コスト面での優位性を同時に追求することが容易である。","差別化戦略の成功には、顧客が差別化に価値を認め、価格プレミアムを支払う意向が必要である。","差別化戦略は、特定のセグメントに集中することで規模の経済を追求する戦略である。"],
-   answer:2, explanation:"差別化戦略では、製品・サービスの独自性に顧客が価値を認め、プレミアム価格を支払う意向があることが成立の前提です。コスト面の優位性との同時追求は「スタック・イン・ザ・ミドル」に陥るリスクがあります。"},
-  {id:8, subject:"企業経営理論", year:2022, num:2,
+   answer:2,explanation:"差別化戦略では製品・サービスの独自性に顧客が価値を認め、プレミアム価格を支払う意向が必要です。コスト優位との同時追求は「スタック・イン・ザ・ミドル」のリスクがあります。"},
+  {id:8,subject:"企業経営理論",year:2022,num:2,
    text:"バランスト・スコアカード（BSC）に関する記述として、最も適切なものはどれか。",
    choices:["BSCは、財務の視点のみで企業業績を評価するツールである。","BSCの4つの視点は、財務、顧客、内部プロセス、学習と成長である。","BSCでは、各視点のKPIは独立して設定され、相互の因果関係は考慮しない。","BSCは短期的な業績管理を目的として開発されたフレームワークである。"],
-   answer:1, explanation:"バランスト・スコアカードはキャプランとノートンが提唱したフレームワークで、①財務、②顧客、③内部ビジネスプロセス、④学習と成長の4つの視点から企業を多面的に評価します。各視点のKPIは戦略マップを通じて因果関係でつながっています。"},
-  // --- 運営管理 ---
-  {id:9, subject:"運営管理", year:2023, num:1,
+   answer:1,explanation:"BSCはキャプランとノートンが提唱。①財務②顧客③内部ビジネスプロセス④学習と成長の4視点から多面的に評価します。"},
+  {id:9,subject:"運営管理",year:2023,num:1,
    text:"在庫管理における発注方式に関する記述として、最も適切なものはどれか。",
    choices:["定量発注方式では、在庫が一定量（発注点）まで減少したとき、その都度決まった量を発注する。","定期発注方式では、一定期間ごとに在庫量を確認し、常に一定量を発注する。","定量発注方式は、需要変動が大きい品目の管理に適している。","定期発注方式は、発注頻度が高く単価が低いC品目の管理に適している。"],
-   answer:0, explanation:"定量発注方式（発注点方式）は、在庫が一定量（発注点・リオーダーポイント）まで減少した時点で、常に一定量（発注量）を発注する方式です。需要が比較的安定した品目に適しています。定期発注方式は一定期間ごとに発注量を調整します。"},
-  {id:10, subject:"運営管理", year:2022, num:3,
+   answer:0,explanation:"定量発注方式（発注点方式）は在庫が発注点まで減少した時点で常に一定量を発注する方式です。需要が安定した品目に適しています。"},
+  {id:10,subject:"運営管理",year:2022,num:3,
    text:"生産形態の分類に関する記述として、最も適切なものはどれか。",
    choices:["個別生産は、同一製品を大量に連続して生産する形態であり、ライン生産とも呼ばれる。","ロット生産は、一定数量まとめて生産し、完了後に次品種の生産に切り替える形態である。","連続生産は、注文に応じて個々の仕様で生産する形態であり、汎用機械が多く使われる。","大量生産の利点の一つは、設計変更への柔軟な対応が容易である点である。"],
-   answer:1, explanation:"ロット生産（バッチ生産）は、一定数量（ロット）まとめて生産し、終了後に次の品種の生産に切り替える方式です。個別生産は注文ごとに個別の仕様で生産する形態、連続（大量）生産は同一品種を継続的に大量生産する形態です。"},
-  // --- 経営法務 ---
-  {id:11, subject:"経営法務", year:2023, num:1,
+   answer:1,explanation:"ロット生産（バッチ生産）は一定数量まとめて生産し、終了後に次品種に切り替える方式です。"},
+  {id:11,subject:"経営法務",year:2023,num:1,
    text:"株式会社の機関設計に関する記述として、最も適切なものはどれか。",
    choices:["すべての株式会社は、取締役会と監査役を設置しなければならない。","公開会社でない株式会社（非公開会社）は、取締役会を必ず設置しなければならない。","監査等委員会設置会社では、監査役を置くことができない。","委員会設置会社（指名委員会等設置会社）は、監査役を置かなければならない。"],
-   answer:2, explanation:"監査等委員会設置会社は、監査等委員会が監査役の機能を担うため、監査役（会）を置くことができません。非公開会社は取締役会の設置が任意です。指名委員会等設置会社も監査役を置けません。"},
-  {id:12, subject:"経営法務", year:2022, num:2,
+   answer:2,explanation:"監査等委員会設置会社は監査等委員会が監査役の機能を担うため、監査役（会）を置けません。非公開会社は取締役会設置が任意です。"},
+  {id:12,subject:"経営法務",year:2022,num:2,
    text:"知的財産権に関する記述として、最も適切なものはどれか。",
    choices:["特許権の保護期間は、出願日から20年である。","著作権は、著作物の創作と同時に自動的に発生し、登録は権利発生の要件ではない。","商標権の保護期間は、登録から10年であり、更新することはできない。","実用新案権の保護期間は、出願日から20年である。"],
-   answer:1, explanation:"著作権は、著作物を創作した時点で自動的に発生します（無方式主義）。特許権の存続期間は出願日から20年、商標権は登録日から10年で更新可能、実用新案権は出願日から10年です。"},
-  // --- 経営情報システム ---
-  {id:13, subject:"経営情報システム", year:2023, num:1,
+   answer:1,explanation:"著作権は創作と同時に自動発生（無方式主義）。特許権は出願から20年、商標権は登録から10年で更新可能、実用新案権は出願から10年です。"},
+  {id:13,subject:"経営情報システム",year:2023,num:1,
    text:"ERPシステムに関する記述として、最も適切なものはどれか。",
-   choices:["ERPは、企業の営業活動のみを支援するシステムであり、製造や会計機能は含まない。","ERPを導入することで、部門間でデータをリアルタイムに共有し、業務効率化が期待できる。","ERPシステムは、各企業の業務プロセスに完全に合わせてカスタマイズすることが前提である。","ERPとCRMは同一のシステムであり、顧客関係管理と基幹業務管理を指す言葉として互換性がある。"],
-   answer:1, explanation:"ERP（Enterprise Resource Planning）は、財務・会計、人事、製造、購買、販売など企業の基幹業務を統合管理するシステムです。部門間でリアルタイムにデータを共有でき、業務効率化・意思決定の迅速化が期待できます。"},
-  // --- 中小企業経営・政策 ---
-  {id:14, subject:"中小企業経営・政策", year:2023, num:1,
+   choices:["ERPは、企業の営業活動のみを支援するシステムであり、製造や会計機能は含まない。","ERPを導入することで、部門間でデータをリアルタイムに共有し、業務効率化が期待できる。","ERPシステムは、各企業の業務プロセスに完全に合わせてカスタマイズすることが前提である。","ERPとCRMは同一のシステムである。"],
+   answer:1,explanation:"ERP（Enterprise Resource Planning）は財務・人事・製造・購買・販売など基幹業務を統合管理するシステムです。部門間リアルタイム共有により業務効率化が期待できます。"},
+  {id:14,subject:"中小企業経営・政策",year:2023,num:1,
    text:"中小企業基本法における中小企業の定義（製造業等）として、最も適切なものはどれか。",
    choices:["資本金3億円以下または従業員300人以下","資本金1億円以下または従業員100人以下","資本金3億円以下または従業員500人以下","資本金1億円以下または従業員300人以下"],
-   answer:0, explanation:"中小企業基本法における製造業等の中小企業の定義は、「資本金の額又は出資の総額が3億円以下の会社又は従業員数が300人以下の会社及び個人」です。業種によって異なり、卸売業は1億円以下・100人以下、小売業・サービス業はさらに小さい基準が設けられています。"},
-  {id:15, subject:"中小企業経営・政策", year:2022, num:2,
+   answer:0,explanation:"製造業等の中小企業は「資本金3億円以下または従業員300人以下」です。卸売業は1億円・100人以下、小売業・サービス業はさらに小さい基準です。"},
+  {id:15,subject:"中小企業経営・政策",year:2022,num:2,
    text:"小規模企業振興基本法に関する記述として、最も適切なものはどれか。",
    choices:["小規模企業振興基本法は、中小企業基本法に優先して適用される特別法である。","小規模企業とは、製造業等において従業員20人以下の事業者を指す。","小規模企業振興基本法は、小規模企業の「稼ぐ力」の向上よりも設備投資の促進を主目的とする。","小規模企業振興基本法では、商工会・商工会議所の役割について規定されていない。"],
-   answer:1, explanation:"小規模企業振興基本法における小規模企業の定義は、製造業等では従業員20人以下、商業・サービス業では5人以下です。同法は中小企業基本法の「特例」として位置づけられ、小規模企業の「稼ぐ力」の向上を主目的とした政策の方向性を示しています。"},
+   answer:1,explanation:"小規模企業振興基本法における製造業等の小規模企業は従業員20人以下、商業・サービス業は5人以下です。同法は「稼ぐ力」向上を主眼に置いています。"},
 ];
 
-// ===========================
+// =====================
 // STATE
-// ===========================
-let state = {
-  sessionQuestions: [],
-  currentIndex: 0,
-  selectedChoice: null,
+// =====================
+const ST = {
+  sessionQs: [],
+  idx: 0,
   answered: false,
   sessionResults: [],
-  history: JSON.parse(localStorage.getItem('shindan_history') || '[]'),
-  wrongMap: JSON.parse(localStorage.getItem('shindan_wrong') || '{}'),
-  seenMap: JSON.parse(localStorage.getItem('shindan_seen') || '{}'),
+  lastWrongIds: [],
+  history: JSON.parse(localStorage.getItem('rmc_history')||'[]'),
+  wrongMap: JSON.parse(localStorage.getItem('rmc_wrong')||'{}'),
+  seenMap: JSON.parse(localStorage.getItem('rmc_seen')||'{}'),
 };
 
-// ===========================
+// =====================
 // NAVIGATION
-// ===========================
-function showView(name) {
-  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('view-' + name).classList.add('active');
-  document.querySelectorAll('.nav-btn').forEach(b => {
-    if (b.textContent.includes(nameToLabel(name))) b.classList.add('active');
-  });
-  if (name === 'home') renderHome();
-  if (name === 'history') renderHistory();
-  if (name === 'review') renderReview();
+// =====================
+function showTab(name) {
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.querySelectorAll('.tab-item').forEach(t=>t.classList.remove('active'));
+  document.getElementById('view-'+name).classList.add('active');
+  const tab = document.getElementById('tab-'+name);
+  if(tab) tab.classList.add('active');
+  document.getElementById('content-area').scrollTop = 0;
+  if(name==='home') renderHome();
+  if(name==='history') renderHistory();
+  if(name==='review') renderReview();
 }
 
-function nameToLabel(n) {
-  return {home:'ホーム',review:'間違い復習',history:'履歴'}[n] || '';
-}
-
-// ===========================
+// =====================
 // HOME
-// ===========================
+// =====================
 function renderHome() {
-  const all = state.history.flatMap(h => h.results);
+  const all = ST.history.flatMap(h=>h.results||[]);
   const total = all.length;
-  const correct = all.filter(r => r.correct).length;
-  const wrong = total - correct;
-  const rate = total > 0 ? Math.round(correct / total * 100) : 0;
+  const correct = all.filter(r=>r.correct).length;
+  document.getElementById('s-total').textContent = total;
+  document.getElementById('s-correct').textContent = correct;
+  document.getElementById('s-wrong').textContent = total-correct;
+  document.getElementById('s-rate').textContent = total>0 ? Math.round(correct/total*100)+'%' : '--%';
 
-  document.getElementById('stat-total').textContent = total;
-  document.getElementById('stat-correct').textContent = correct;
-  document.getElementById('stat-wrong').textContent = wrong;
-  document.getElementById('stat-rate').textContent = total > 0 ? rate + '%' : '--%';
-
-  const subjects = [...new Set(QUESTIONS.map(q => q.subject))];
-  const list = document.getElementById('subject-list');
-  list.innerHTML = subjects.map(sub => {
-    const subResults = all.filter(r => r.subject === sub);
-    const subTotal = subResults.length;
-    const subCorrect = subResults.filter(r => r.correct).length;
-    const pct = subTotal > 0 ? Math.round(subCorrect / subTotal * 100) : 0;
+  const subjects = [...new Set(QUESTIONS.map(q=>q.subject))];
+  document.getElementById('subject-list').innerHTML = subjects.map(sub=>{
+    const rs = all.filter(r=>r.subject===sub);
+    const pct = rs.length>0 ? Math.round(rs.filter(r=>r.correct).length/rs.length*100) : 0;
     return `<div class="subject-row">
       <div class="subject-name">${sub}</div>
-      <div class="progress-bar-wrap"><div class="progress-bar-fill" style="width:${pct}%"></div></div>
-      <div class="subject-pct">${subTotal > 0 ? pct + '%' : '--%'}</div>
-      <div class="subject-count">${subCorrect}/${subTotal}</div>
+      <div class="prog-wrap"><div class="prog-fill" style="width:${pct}%"></div></div>
+      <div class="subject-pct">${rs.length>0?pct+'%':'--%'}</div>
     </div>`;
   }).join('');
+
+  // iOS install hint
+  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+  const isStandalone = window.navigator.standalone;
+  const dismissed = localStorage.getItem('rmc_install_dismissed');
+  if(isIOS && !isStandalone && !dismissed) {
+    document.getElementById('install-banner').classList.add('show');
+  }
 }
 
-// ===========================
-// QUIZ
-// ===========================
-function startQuiz() {
-  const subFilter = document.getElementById('filter-subject').value;
-  const yearFilter = document.getElementById('filter-year').value;
-  const modeFilter = document.getElementById('filter-mode').value;
+function dismissInstall() {
+  document.getElementById('install-banner').classList.remove('show');
+  localStorage.setItem('rmc_install_dismissed','1');
+}
 
-  let pool = QUESTIONS.filter(q => {
-    if (subFilter !== 'all' && q.subject !== subFilter) return false;
-    if (yearFilter !== 'all' && String(q.year) !== yearFilter) return false;
-    if (modeFilter === 'wrong') return state.wrongMap[q.id];
-    if (modeFilter === 'unseen') return !state.seenMap[q.id];
+// =====================
+// QUIZ
+// =====================
+function startQuiz() {
+  const sub = document.getElementById('filter-subject').value;
+  const yr = document.getElementById('filter-year').value;
+  const mode = document.getElementById('filter-mode').value;
+
+  let pool = QUESTIONS.filter(q=>{
+    if(sub!=='all' && q.subject!==sub) return false;
+    if(yr!=='all' && String(q.year)!==yr) return false;
+    if(mode==='wrong') return ST.wrongMap[q.id];
+    if(mode==='unseen') return !ST.seenMap[q.id];
     return true;
   });
 
-  if (pool.length === 0) {
-    alert('該当する問題がありません。フィルターを変更してください。');
-    return;
-  }
+  if(pool.length===0){ alert('該当する問題がありません。フィルターを変更してください。'); return; }
+  pool = pool.sort(()=>Math.random()-0.5).slice(0, Math.min(pool.length,20));
 
-  // Shuffle
-  pool = pool.sort(() => Math.random() - 0.5).slice(0, Math.min(pool.length, 20));
+  ST.sessionQs = pool;
+  ST.idx = 0;
+  ST.sessionResults = [];
 
-  state.sessionQuestions = pool;
-  state.currentIndex = 0;
-  state.sessionResults = [];
-
-  showView('quiz');
-  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-  renderQuestion();
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.querySelectorAll('.tab-item').forEach(t=>t.classList.remove('active'));
+  document.getElementById('view-quiz').classList.add('active');
+  document.getElementById('content-area').scrollTop = 0;
+  renderQ();
 }
 
-function renderQuestion() {
-  const q = state.sessionQuestions[state.currentIndex];
-  const total = state.sessionQuestions.length;
-  const idx = state.currentIndex;
+function renderQ() {
+  const q = ST.sessionQs[ST.idx];
+  const total = ST.sessionQs.length;
+  ST.answered = false;
 
-  state.selectedChoice = null;
-  state.answered = false;
-
-  document.getElementById('q-counter').textContent = `${idx + 1} / ${total}`;
+  document.getElementById('q-counter').textContent = `${ST.idx+1} / ${total}`;
   document.getElementById('q-subject-label').textContent = q.subject;
-  document.getElementById('q-year-label').textContent = q.year + '年';
-  document.getElementById('q-badge-subject').textContent = q.subject;
-  document.getElementById('q-badge-year').textContent = q.year + '年（令和' + (q.year - 2018) + '年）';
-  document.getElementById('q-badge-num').textContent = '第' + q.num + '問';
-  document.getElementById('question-text').textContent = q.text;
-
-  const pct = ((idx) / total * 100).toFixed(1);
-  document.getElementById('quiz-prog').style.width = pct + '%';
+  document.getElementById('q-badge-sub').textContent = q.subject;
+  document.getElementById('q-badge-year').textContent = q.year+'年';
+  document.getElementById('q-badge-num').textContent = '第'+q.num+'問';
+  document.getElementById('q-text').textContent = q.text;
+  document.getElementById('quiz-prog').style.width = (ST.idx/total*100)+'%';
 
   document.getElementById('result-banner').className = 'result-banner';
-  document.getElementById('explanation-box').className = 'explanation-box';
+  document.getElementById('exp-box').className = 'exp-box';
   document.getElementById('btn-skip').style.display = '';
   document.getElementById('btn-next').style.display = 'none';
 
-  const labels = ['ア', 'イ', 'ウ', 'エ'];
-  const container = document.getElementById('choices-container');
-  container.innerHTML = q.choices.map((c, i) =>
+  const labels = ['ア','イ','ウ','エ'];
+  document.getElementById('choices').innerHTML = q.choices.map((c,i)=>
     `<button class="choice-btn" onclick="selectChoice(${i})">
       <span class="choice-label">${labels[i]}</span>
       <span>${c}</span>
@@ -742,169 +821,167 @@ function renderQuestion() {
 }
 
 function selectChoice(idx) {
-  if (state.answered) return;
-  state.selectedChoice = idx;
-  state.answered = true;
+  if(ST.answered) return;
+  ST.answered = true;
+  const q = ST.sessionQs[ST.idx];
+  const correct = idx===q.answer;
 
-  const q = state.sessionQuestions[state.currentIndex];
-  const correct = idx === q.answer;
-
-  // Mark seen
-  state.seenMap[q.id] = true;
-  // Update wrong map
-  if (!correct) state.wrongMap[q.id] = true;
-  else delete state.wrongMap[q.id];
-
+  ST.seenMap[q.id] = true;
+  if(!correct) ST.wrongMap[q.id] = true;
+  else delete ST.wrongMap[q.id];
   saveLocal();
+  ST.sessionResults.push({qid:q.id, subject:q.subject, correct});
 
-  state.sessionResults.push({ qid: q.id, subject: q.subject, correct });
-
-  // Style choices
-  const btns = document.querySelectorAll('.choice-btn');
-  btns.forEach((btn, i) => {
+  document.querySelectorAll('.choice-btn').forEach((btn,i)=>{
     btn.classList.add('disabled');
-    if (i === q.answer) btn.classList.add('correct');
-    if (i === idx && !correct) btn.classList.add('incorrect');
+    if(i===q.answer) btn.classList.add('correct');
+    if(i===idx && !correct) btn.classList.add('incorrect');
   });
 
-  // Banner
   const banner = document.getElementById('result-banner');
-  banner.className = 'result-banner show ' + (correct ? 'correct-banner' : 'wrong-banner');
-  document.getElementById('result-icon').textContent = correct ? '✓' : '✗';
-  document.getElementById('result-msg').textContent = correct ? '正解です！' : '不正解。正解は「' + ['ア','イ','ウ','エ'][q.answer] + '」です。';
+  banner.className = 'result-banner show '+(correct?'correct-banner':'wrong-banner');
+  document.getElementById('result-icon').textContent = correct?'✓':'✗';
+  document.getElementById('result-msg').textContent = correct ? '正解！' : '不正解。正解は「'+['ア','イ','ウ','エ'][q.answer]+'」です。';
 
-  // Explanation
-  const expBox = document.getElementById('explanation-box');
-  expBox.className = 'explanation-box show';
-  document.getElementById('explanation-text').textContent = q.explanation;
+  document.getElementById('exp-box').className = 'exp-box show';
+  document.getElementById('exp-text').textContent = q.explanation;
 
   document.getElementById('btn-skip').style.display = 'none';
   document.getElementById('btn-next').style.display = '';
+  document.getElementById('content-area').scrollTop = 0;
 }
 
-function nextQuestion(skip) {
-  if (!skip && !state.answered) return;
-  state.currentIndex++;
-  if (state.currentIndex >= state.sessionQuestions.length) {
-    endQuiz();
-  } else {
-    renderQuestion();
-  }
+function nextQ(skip) {
+  if(!skip && !ST.answered) return;
+  ST.idx++;
+  if(ST.idx>=ST.sessionQs.length) endQuiz();
+  else { renderQ(); document.getElementById('content-area').scrollTop=0; }
 }
 
 function endQuiz() {
-  const results = state.sessionResults;
+  const results = ST.sessionResults;
   const total = results.length;
-  const correct = results.filter(r => r.correct).length;
-  const wrong = total - correct;
-  const pct = total > 0 ? Math.round(correct / total * 100) : 0;
+  const correct = results.filter(r=>r.correct).length;
+  const pct = total>0?Math.round(correct/total*100):0;
 
-  // Save history
+  ST.lastWrongIds = results.filter(r=>!r.correct).map(r=>r.qid);
+
   const entry = {
     date: new Date().toISOString(),
-    total, correct, wrong, pct,
-    results,
-    label: document.getElementById('filter-subject').value === 'all'
-      ? '全科目' : document.getElementById('filter-subject').value
+    total, correct, pct, results,
+    label: document.getElementById('filter-subject').value==='all'?'全科目':document.getElementById('filter-subject').value
   };
-  state.history.unshift(entry);
-  if (state.history.length > 50) state.history.length = 50;
+  ST.history.unshift(entry);
+  if(ST.history.length>50) ST.history.length=50;
   saveLocal();
 
-  document.getElementById('res-score').textContent = pct + '%';
-  document.getElementById('res-correct').textContent = correct;
-  document.getElementById('res-wrong').textContent = wrong;
-  document.getElementById('res-total').textContent = total;
+  document.getElementById('res-pct').textContent = pct+'%';
+  document.getElementById('res-c').textContent = correct;
+  document.getElementById('res-w').textContent = total-correct;
+  document.getElementById('res-t').textContent = total;
 
-  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
   document.getElementById('view-result').classList.add('active');
-  document.getElementById('view-result').style.animation = 'none';
-  setTimeout(() => document.getElementById('view-result').style.animation = '', 10);
+  document.getElementById('content-area').scrollTop=0;
 }
 
 function quitQuiz() {
-  if (state.sessionResults.length > 0) endQuiz();
-  else showView('home');
+  if(ST.sessionResults.length>0) endQuiz();
+  else showTab('home');
 }
 
 function showResultReview() {
-  renderReview(state.sessionResults.filter(r => !r.correct).map(r => r.qid));
-  showView('review');
+  renderReview(ST.lastWrongIds);
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.querySelectorAll('.tab-item').forEach(t=>t.classList.remove('active'));
+  document.getElementById('view-review').classList.add('active');
+  document.getElementById('tab-review').classList.add('active');
+  document.getElementById('content-area').scrollTop=0;
 }
 
-// ===========================
+// =====================
 // REVIEW
-// ===========================
+// =====================
 function renderReview(qidList) {
   let qs;
-  if (qidList) {
-    qs = qidList.map(id => QUESTIONS.find(q => q.id === id)).filter(Boolean);
+  if(qidList) {
+    qs = qidList.map(id=>QUESTIONS.find(q=>q.id===id)).filter(Boolean);
   } else {
-    const wrongIds = Object.keys(state.wrongMap).map(Number);
-    qs = QUESTIONS.filter(q => wrongIds.includes(q.id));
+    const wrongIds = Object.keys(ST.wrongMap).map(Number);
+    qs = QUESTIONS.filter(q=>wrongIds.includes(q.id));
   }
-
+  const labels = ['ア','イ','ウ','エ'];
   const container = document.getElementById('review-list');
-  if (qs.length === 0) {
-    container.innerHTML = '<div class="empty-state"><div class="icon">🎉</div>間違えた問題はありません！</div>';
+  if(qs.length===0){
+    container.innerHTML='<div class="empty-state"><div class="empty-icon">🎉</div>間違えた問題はありません！</div>';
     return;
   }
-
-  const labels = ['ア','イ','ウ','エ'];
-  container.innerHTML = qs.map(q => {
-    return `<div class="review-question">
-      <div class="review-badges">
-        <span class="badge subject-badge">${q.subject}</span>
-        <span class="badge">${q.year}年</span>
-        <span class="badge">第${q.num}問</span>
+  container.innerHTML = qs.map(q=>`
+    <div class="review-card">
+      <div class="q-badges" style="margin-bottom:10px">
+        <span class="badge blue">${q.subject}</span>
+        <span class="badge">${q.year}年 第${q.num}問</span>
       </div>
-      <div class="q-text">${q.text}</div>
+      <div class="review-q">${q.text}</div>
       <div class="review-choices">
-        ${q.choices.map((c, i) => `
-          <div class="review-choice ${i === q.answer ? 'answer' : ''}">
-            <span style="flex-shrink:0;font-family:'DM Mono',monospace;font-size:12px">${labels[i]}</span>
+        ${q.choices.map((c,i)=>`
+          <div class="review-choice ${i===q.answer?'answer':''}">
+            <span style="font-family:'DM Mono',monospace;font-size:11px;flex-shrink:0">${labels[i]}</span>
             <span>${c}</span>
-            ${i === q.answer ? '<span style="margin-left:auto;flex-shrink:0;font-size:11px">✓ 正解</span>' : ''}
+            ${i===q.answer?'<span style="margin-left:auto;flex-shrink:0;font-size:10px">✓</span>':''}
           </div>`).join('')}
       </div>
-      <div class="review-exp">📝 ${q.explanation}</div>
+      <div class="review-exp-mini">📝 ${q.explanation}</div>
+    </div>`).join('');
+}
+
+// =====================
+// HISTORY
+// =====================
+function renderHistory() {
+  const container = document.getElementById('history-list');
+  if(ST.history.length===0){
+    container.innerHTML='<div class="empty-state"><div class="empty-icon">📋</div>まだ演習の記録がありません</div>';
+    return;
+  }
+  container.innerHTML = ST.history.map(h=>{
+    const d = new Date(h.date);
+    const ds = `${d.getMonth()+1}/${d.getDate()}\n${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
+    return `<div class="history-item">
+      <div class="history-date">${ds}</div>
+      <div class="history-label">${h.label}<br><span style="color:var(--text3);font-size:10px">${h.total}問出題</span></div>
+      <div class="history-score">${h.correct}/${h.total}</div>
+      <div class="history-pct">${h.pct}%</div>
     </div>`;
   }).join('');
 }
 
-// ===========================
-// HISTORY
-// ===========================
-function renderHistory() {
-  const container = document.getElementById('history-list');
-  if (state.history.length === 0) {
-    container.innerHTML = '<div class="empty-state"><div class="icon">📋</div>まだ演習の記録がありません</div>';
-    return;
-  }
-  container.innerHTML = '<div class="history-list">' + state.history.map(h => {
-    const d = new Date(h.date);
-    const ds = `${d.getMonth()+1}/${d.getDate()} ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
-    return `<div class="history-item">
-      <div class="history-date">${ds}</div>
-      <div class="history-subject">${h.label} ／ ${h.total}問</div>
-      <div class="history-score">${h.correct}/${h.total}</div>
-      <div class="history-pct">${h.pct}%</div>
-    </div>`;
-  }).join('') + '</div>';
-}
-
-// ===========================
-// PERSISTENCE
-// ===========================
+// =====================
+// UTILS
+// =====================
 function saveLocal() {
-  localStorage.setItem('shindan_history', JSON.stringify(state.history));
-  localStorage.setItem('shindan_wrong', JSON.stringify(state.wrongMap));
-  localStorage.setItem('shindan_seen', JSON.stringify(state.seenMap));
+  localStorage.setItem('rmc_history', JSON.stringify(ST.history));
+  localStorage.setItem('rmc_wrong', JSON.stringify(ST.wrongMap));
+  localStorage.setItem('rmc_seen', JSON.stringify(ST.seenMap));
 }
 
-// ===========================
-// INIT
-// ===========================
+// Header date
+function updateDate() {
+  const now = new Date();
+  const days = ['日','月','火','水','木','金','土'];
+  document.getElementById('header-date').textContent =
+    `${now.getMonth()+1}/${now.getDate()}（${days[now.getDay()]}）`;
+}
+updateDate();
+
+// Service Worker
+if('serviceWorker' in navigator) {
+  window.addEventListener('load', ()=>{
+    navigator.serviceWorker.register('./sw.js').catch(()=>{});
+  });
+}
+
+// Init
 renderHome();
 </script>
 </body>
