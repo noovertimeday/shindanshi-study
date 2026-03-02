@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="RMC Study">
+<meta name="theme-color" content="#0f1f3d">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="apple-touch-icon" sizes="152x152" href="icon-152.png">
+<link rel="apple-touch-icon" sizes="120x120" href="icon-120.png">
+<title>RMC Study</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;600;700&family=Noto+Sans+JP:wght@300;400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #0f1f3d;
+  --navy2: #162847;
+  --navy3: #1e3560;
+  --border: #243d6a;
+  --blue: #4a9eff;
+  --blue2: #7bc4ff;
+  --green: #34d399;
+  --red: #f87171;
+  --yellow: #fbbf24;
+  --text: #e8edf5;
+  --text2: #8fa8cc;
+  --text3: #4a6490;
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+html, body {
+  height: 100%;
+  overflow: hidden;
+  background: var(--navy);
+  color: var(--text);
+  font-family: 'Noto Sans JP', sans-serif;
+}
+
+/* ===== APP SHELL ===== */
+.app-shell {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  height: 100dvh;
+}
+
+/* ===== STATUS BAR AREA ===== */
+.status-bar {
+  height: calc(var(--safe-top) + 0px);
+  background: var(--navy);
+  flex-shrink: 0;
+}
+
+/* ===== HEADER ===== */
+.app-header {
+  background: var(--navy);
+  border-bottom: 1px solid var(--border);
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+.app-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.app-logo-icon {
+  width: 32px;
+  height: 32px;
+  background: linear-gradient(135deg, var(--navy3), var(--navy2));
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+}
+.app-logo-text {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--blue2);
+}
+.app-logo-sub {
+  font-size: 10px;
+  color: var(--text3);
+  letter-spacing: 0.05em;
+  margin-top: 1px;
+}
+.header-right {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--text3);
+  text-align: right;
+}
+
+/* ===== CONTENT AREA ===== */
+.content-area {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  padding: 16px;
+  padding-bottom: calc(16px + var(--safe-bottom));
+}
+
+/* ===== BOTTOM TAB BAR ===== */
+.tab-bar {
+  display: flex;
+  background: var(--navy);
+  border-top: 1px solid var(--border);
+  padding-bottom: var(--safe-bottom);
+  flex-shrink: 0;
+}
+.tab-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 0 8px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  color: var(--text3);
+  font-family: 'Noto Sans JP', sans-serif;
+  transition: color 0.2s;
+  gap: 4px;
+}
+.tab-item.active { color: var(--blue); }
+.tab-item .tab-icon { font-size: 20px; line-height: 1; }
+.tab-item .tab-label { font-size: 10px; letter-spacing: 0.03em; }
+
+/* ===== VIEWS ===== */
+.view { display: none; animation: fadeUp 0.25s ease; }
+.view.active { display: block; }
+@keyframes fadeUp { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+
+/* ===== HOME VIEW ===== */
+.filter-section { margin-bottom: 16px; }
+.filter-row { display: flex; gap: 8px; margin-bottom: 8px; }
+.filter-select {
+  flex: 1;
+  background: var(--navy2);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 11px 12px;
+  border-radius: 10px;
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 13px;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath fill='%234a6490' d='M5 7L0 2h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  padding-right: 28px;
+}
+.filter-select:focus { outline: none; border-color: var(--blue); }
+
+.start-btn {
+  width: 100%;
+  background: linear-gradient(135deg, #1e3a7a, #2d5cb8);
+  border: 1px solid var(--blue);
+  color: white;
+  padding: 15px;
+  border-radius: 12px;
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  letter-spacing: 0.08em;
+  transition: all 0.15s;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 4px 20px rgba(74,158,255,0.2);
+}
+.start-btn:active { transform: scale(0.98); opacity: 0.9; }
+
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.stat-card {
+  background: var(--navy2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px;
+  text-align: center;
+}
+.stat-val {
+  font-family: 'DM Mono', monospace;
+  font-size: 26px;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+.stat-val.blue { color: var(--blue); }
+.stat-val.green { color: var(--green); }
+.stat-val.red { color: var(--red); }
+.stat-val.yellow { color: var(--yellow); }
+.stat-label { font-size: 11px; color: var(--text3); }
+
+.section-hd {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 13px;
+  color: var(--text3);
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+  letter-spacing: 0.06em;
+}
+.subject-list { display: flex; flex-direction: column; gap: 8px; }
+.subject-row {
+  background: var(--navy2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.subject-name { font-size: 12px; width: 130px; flex-shrink: 0; line-height: 1.3; }
+.prog-wrap { flex: 1; background: var(--navy3); border-radius: 3px; height: 6px; overflow: hidden; }
+.prog-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, var(--blue), var(--green)); transition: width 0.6s ease; }
+.subject-pct { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--blue); width: 38px; text-align: right; flex-shrink: 0; }
+
+/* ===== QUIZ VIEW ===== */
+.quiz-topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+.quiz-counter { font-family: 'DM Mono', monospace; font-size: 13px; color: var(--text2); }
+.quiz-subject { font-size: 11px; color: var(--text3); }
+.quit-btn {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--text3);
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  cursor: pointer;
+  font-family: 'Noto Sans JP', sans-serif;
+  transition: all 0.2s;
+}
+.quit-btn:active { border-color: var(--red); color: var(--red); }
+
+.quiz-prog-bar { background: var(--navy3); height: 3px; border-radius: 2px; margin-bottom: 16px; overflow: hidden; }
+.quiz-prog-fill { height: 100%; background: linear-gradient(90deg, var(--blue), var(--blue2)); transition: width 0.3s; }
+
+.q-card {
+  background: var(--navy2);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 18px;
+  margin-bottom: 14px;
+}
+.q-badges { display: flex; gap: 6px; margin-bottom: 12px; flex-wrap: wrap; }
+.badge {
+  font-size: 10px;
+  padding: 3px 8px;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  color: var(--text3);
+  letter-spacing: 0.04em;
+}
+.badge.blue { color: var(--blue); border-color: rgba(74,158,255,0.3); background: rgba(74,158,255,0.07); }
+.q-text {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 15px;
+  line-height: 1.85;
+  color: var(--text);
+}
+
+.choices { display: flex; flex-direction: column; gap: 9px; margin-bottom: 14px; }
+.choice-btn {
+  background: var(--navy2);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 13px 14px;
+  border-radius: 10px;
+  text-align: left;
+  cursor: pointer;
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 13px;
+  line-height: 1.6;
+  transition: all 0.12s;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  width: 100%;
+}
+.choice-btn:active:not(.disabled) { background: rgba(74,158,255,0.1); border-color: var(--blue); }
+.choice-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--text3);
+  margin-top: 2px;
+  flex-shrink: 0;
+  width: 18px;
+}
+.choice-btn.correct { border-color: var(--green); background: rgba(52,211,153,0.1); }
+.choice-btn.incorrect { border-color: var(--red); background: rgba(248,113,113,0.1); }
+.choice-btn.show-correct { border-color: var(--green); background: rgba(52,211,153,0.07); }
+.choice-btn.disabled { cursor: default; }
+
+.result-banner {
+  display: none;
+  border-radius: 10px;
+  padding: 12px 16px;
+  margin-bottom: 12px;
+  font-size: 14px;
+  font-weight: 500;
+  align-items: center;
+  gap: 8px;
+}
+.result-banner.show { display: flex; animation: fadeUp 0.2s ease; }
+.correct-banner { background: rgba(52,211,153,0.1); border: 1px solid rgba(52,211,153,0.3); color: var(--green); }
+.wrong-banner { background: rgba(248,113,113,0.1); border: 1px solid rgba(248,113,113,0.3); color: var(--red); }
+
+.exp-box {
+  display: none;
+  background: var(--navy3);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px;
+  font-size: 12px;
+  line-height: 1.8;
+  color: var(--text2);
+  margin-bottom: 14px;
+}
+.exp-box.show { display: block; animation: fadeUp 0.2s ease; }
+.exp-box strong { color: var(--yellow); display: block; margin-bottom: 6px; font-size: 11px; letter-spacing: 0.05em; }
+
+.quiz-actions { display: flex; gap: 8px; justify-content: flex-end; padding-bottom: 8px; }
+.btn-primary {
+  background: linear-gradient(135deg, #1e3a7a, #2d5cb8);
+  border: 1px solid var(--blue);
+  color: white;
+  padding: 12px 22px;
+  border-radius: 10px;
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+.btn-primary:active { opacity: 0.85; }
+.btn-secondary {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--text2);
+  padding: 12px 18px;
+  border-radius: 10px;
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+/* ===== RESULT VIEW ===== */
+.result-card {
+  background: var(--navy2);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 32px 20px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+.result-pct {
+  font-family: 'DM Mono', monospace;
+  font-size: 72px;
+  font-weight: 500;
+  background: linear-gradient(135deg, var(--blue), var(--green));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.result-sub { color: var(--text3); font-size: 12px; margin-bottom: 24px; }
+.result-nums { display: flex; justify-content: center; gap: 36px; margin-bottom: 28px; }
+.result-num-item { text-align: center; }
+.result-num { font-family: 'DM Mono', monospace; font-size: 28px; font-weight: 500; }
+.result-num.g { color: var(--green); }
+.result-num.r { color: var(--red); }
+.result-num.w { color: var(--text2); }
+.result-num-label { font-size: 11px; color: var(--text3); margin-top: 2px; }
+.result-actions { display: flex; flex-direction: column; gap: 10px; }
+.result-actions .btn-primary, .result-actions .btn-secondary { width: 100%; text-align: center; padding: 14px; }
+
+/* ===== REVIEW VIEW ===== */
+.review-card {
+  background: var(--navy2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 12px;
+}
+.review-q { font-family: 'Noto Serif JP', serif; font-size: 14px; line-height: 1.75; margin-bottom: 12px; }
+.review-choices { display: flex; flex-direction: column; gap: 6px; }
+.review-choice {
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  border: 1px solid var(--border);
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  line-height: 1.5;
+}
+.review-choice.answer { border-color: var(--green); background: rgba(52,211,153,0.08); color: var(--green); }
+.review-exp-mini { font-size: 11px; color: var(--text3); margin-top: 10px; line-height: 1.7; padding: 10px 12px; background: var(--navy3); border-radius: 8px; }
+
+/* ===== HISTORY VIEW ===== */
+.history-item {
+  background: var(--navy2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 13px 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+.history-date { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--text3); width: 70px; flex-shrink: 0; line-height: 1.4; }
+.history-label { font-size: 12px; color: var(--text2); flex: 1; line-height: 1.4; }
+.history-score { font-family: 'DM Mono', monospace; font-size: 15px; color: var(--blue); flex-shrink: 0; }
+.history-pct { font-size: 11px; color: var(--text3); flex-shrink: 0; width: 36px; text-align: right; }
+
+.empty-state { text-align: center; padding: 50px 20px; color: var(--text3); font-size: 13px; }
+.empty-icon { font-size: 36px; margin-bottom: 12px; opacity: 0.4; }
+
+/* ===== PWA INSTALL BANNER ===== */
+.install-banner {
+  display: none;
+  background: linear-gradient(135deg, var(--navy3), var(--navy2));
+  border: 1px solid var(--blue);
+  border-radius: 12px;
+  padding: 14px 16px;
+  margin-bottom: 16px;
+  align-items: center;
+  gap: 12px;
+  animation: fadeUp 0.3s ease;
+}
+.install-banner.show { display: flex; }
+.install-text { flex: 1; font-size: 12px; line-height: 1.6; color: var(--text2); }
+.install-text strong { color: var(--blue); display: block; font-size: 13px; margin-bottom: 2px; }
+.install-steps { font-size: 11px; color: var(--text3); margin-top: 4px; }
+.install-close {
+  background: none;
+  border: none;
+  color: var(--text3);
+  font-size: 18px;
+  cursor: pointer;
+  padding: 4px;
+  flex-shrink: 0;
+}
+</style>
+</head>
+<body>
+
+<div class="app-shell">
+  <div class="status-bar"></div>
+
+  <header class="app-header">
+    <div class="app-logo">
+      <div class="app-logo-icon">📚</div>
+      <div>
+        <div class="app-logo-text">RMC Study</div>
+        <div class="app-logo-sub">中小企業診断士 一次試験</div>
+      </div>
+    </div>
+    <div class="header-right" id="header-date"></div>
+  </header>
+
+  <div class="content-area" id="content-area">
+
+    <!-- ===== HOME ===== -->
+    <div id="view-home" class="view active">
+
+      <!-- iOS Install Banner -->
+      <div class="install-banner" id="install-banner">
+        <div class="install-text">
+          <strong>📲 ホーム画面に追加しよう</strong>
+          <span class="install-steps">Safari の 🔗 共有ボタン → 「ホーム画面に追加」をタップ</span>
+        </div>
+        <button class="install-close" onclick="dismissInstall()">✕</button>
+      </div>
+
+      <div class="filter-section">
+        <div class="filter-row">
+          <select class="filter-select" id="filter-subject">
+            <option value="all">全科目</option>
+            <option value="経済学・経済政策">経済学・経済政策</option>
+            <option value="財務・会計">財務・会計</option>
+            <option value="企業経営理論">企業経営理論</option>
+            <option value="運営管理">運営管理</option>
+            <option value="経営法務">経営法務</option>
+            <option value="経営情報システム">経営情報システム</option>
+            <option value="中小企業経営・政策">中小企業経営・政策</option>
+          </select>
+          <select class="filter-select" id="filter-year">
+            <option value="all">全年度</option>
+            <option value="2024">2024年</option>
+            <option value="2023">2023年</option>
+            <option value="2022">2022年</option>
+            <option value="2021">2021年</option>
+            <option value="2020">2020年</option>
+            <option value="2019">2019年</option>
+            <option value="2018">2018年</option>
+            <option value="2017">2017年</option>
+            <option value="2016">2016年</option>
+            <option value="2015">2015年</option>
+          </select>
+        </div>
+        <select class="filter-select" id="filter-mode" style="width:100%">
+          <option value="all">全問出題</option>
+          <option value="wrong">苦手問題のみ</option>
+          <option value="unseen">未回答のみ</option>
+        </select>
+      </div>
+
+      <button class="start-btn" onclick="startQuiz()">▶ &nbsp;演習スタート</button>
+
+      <div class="stats-row">
+        <div class="stat-card"><div class="stat-val blue" id="s-total">0</div><div class="stat-label">総回答数</div></div>
+        <div class="stat-card"><div class="stat-val yellow" id="s-rate">--%</div><div class="stat-label">正答率</div></div>
+        <div class="stat-card"><div class="stat-val green" id="s-correct">0</div><div class="stat-label">正解数</div></div>
+        <div class="stat-card"><div class="stat-val red" id="s-wrong">0</div><div class="stat-label">間違い数</div></div>
+      </div>
+
+      <div class="section-hd">科目別 正答率</div>
+      <div class="subject-list" id="subject-list"></div>
+    </div>
+
+    <!-- ===== QUIZ ===== -->
+    <div id="view-quiz" class="view">
+      <div class="quiz-topbar">
+        <div>
+          <div class="quiz-counter" id="q-counter">1 / 10</div>
+          <div class="quiz-subject" id="q-subject-label">-</div>
+        </div>
+        <button class="quit-btn" onclick="quitQuiz()">中断</button>
+      </div>
+      <div class="quiz-prog-bar"><div class="quiz-prog-fill" id="quiz-prog"></div></div>
+
+      <div class="q-card">
+        <div class="q-badges">
+          <span class="badge blue" id="q-badge-sub">-</span>
+          <span class="badge" id="q-badge-year">-年</span>
+          <span class="badge" id="q-badge-num">第-問</span>
+        </div>
+        <div class="q-text" id="q-text">問題文</div>
+      </div>
+
+      <div class="result-banner" id="result-banner">
+        <span id="result-icon"></span>
+        <span id="result-msg"></span>
+      </div>
+
+      <div class="choices" id="choices"></div>
+
+      <div class="exp-box" id="exp-box">
+        <strong>📝 解説</strong>
+        <span id="exp-text"></span>
+      </div>
+
+      <div class="quiz-actions">
+        <button class="btn-secondary" id="btn-skip" onclick="nextQ(true)">スキップ</button>
+        <button class="btn-primary" id="btn-next" onclick="nextQ(false)" style="display:none">次の問題 →</button>
+      </div>
+    </div>
+
+    <!-- ===== RESULT ===== -->
+    <div id="view-result" class="view">
+      <div class="result-card">
+        <div class="result-pct" id="res-pct">0%</div>
+        <div class="result-sub">正答率</div>
+        <div class="result-nums">
+          <div class="result-num-item"><div class="result-num g" id="res-c">0</div><div class="result-num-label">正解</div></div>
+          <div class="result-num-item"><div class="result-num r" id="res-w">0</div><div class="result-num-label">不正解</div></div>
+          <div class="result-num-item"><div class="result-num w" id="res-t">0</div><div class="result-num-label">出題数</div></div>
+        </div>
+        <div class="result-actions">
+          <button class="btn-primary" onclick="showTab('home')">ホームへ</button>
+          <button class="btn-secondary" onclick="showResultReview()">間違いを見直す</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== REVIEW ===== -->
+    <div id="view-review" class="view">
+      <div class="section-hd">間違えた問題の復習</div>
+      <div id="review-list"></div>
+    </div>
+
+    <!-- ===== HISTORY ===== -->
+    <div id="view-history" class="view">
+      <div class="section-hd">演習履歴</div>
+      <div id="history-list"></div>
+    </div>
+
+  </div><!-- /content-area -->
+
+  <!-- ===== TAB BAR ===== -->
+  <nav class="tab-bar">
+    <button class="tab-item active" id="tab-home" onclick="showTab('home')">
+      <span class="tab-icon">🏠</span>
+      <span class="tab-label">ホーム</span>
+    </button>
+    <button class="tab-item" id="tab-review" onclick="showTab('review')">
+      <span class="tab-icon">📝</span>
+      <span class="tab-label">復習</span>
+    </button>
+    <button class="tab-item" id="tab-history" onclick="showTab('history')">
+      <span class="tab-icon">📊</span>
+      <span class="tab-label">履歴</span>
+    </button>
+  </nav>
+</div>
+
+
+<script src="./questions.js"></script>
+<script>
+// =====================
+// STATE
+const ST = {
+  sessionQs: [],
+  idx: 0,
+  answered: false,
+  sessionResults: [],
+  lastWrongIds: [],
+  history: JSON.parse(localStorage.getItem('rmc_history')||'[]'),
+  wrongMap: JSON.parse(localStorage.getItem('rmc_wrong')||'{}'),
+  seenMap: JSON.parse(localStorage.getItem('rmc_seen')||'{}'),
+};
+
+// =====================
+// NAVIGATION
+// =====================
+function showTab(name) {
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.querySelectorAll('.tab-item').forEach(t=>t.classList.remove('active'));
+  document.getElementById('view-'+name).classList.add('active');
+  const tab = document.getElementById('tab-'+name);
+  if(tab) tab.classList.add('active');
+  document.getElementById('content-area').scrollTop = 0;
+  if(name==='home') renderHome();
+  if(name==='history') renderHistory();
+  if(name==='review') renderReview();
+}
+
+// =====================
+// HOME
+// =====================
+function renderHome() {
+  const all = ST.history.flatMap(h=>h.results||[]);
+  const total = all.length;
+  const correct = all.filter(r=>r.correct).length;
+  document.getElementById('s-total').textContent = total;
+  document.getElementById('s-correct').textContent = correct;
+  document.getElementById('s-wrong').textContent = total-correct;
+  document.getElementById('s-rate').textContent = total>0 ? Math.round(correct/total*100)+'%' : '--%';
+
+  const subjects = [...new Set(QUESTIONS.map(q=>q.subject))];
+  document.getElementById('subject-list').innerHTML = subjects.map(sub=>{
+    const rs = all.filter(r=>r.subject===sub);
+    const pct = rs.length>0 ? Math.round(rs.filter(r=>r.correct).length/rs.length*100) : 0;
+    return `<div class="subject-row">
+      <div class="subject-name">${sub}</div>
+      <div class="prog-wrap"><div class="prog-fill" style="width:${pct}%"></div></div>
+      <div class="subject-pct">${rs.length>0?pct+'%':'--%'}</div>
+    </div>`;
+  }).join('');
+
+  // iOS install hint
+  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+  const isStandalone = window.navigator.standalone;
+  const dismissed = localStorage.getItem('rmc_install_dismissed');
+  if(isIOS && !isStandalone && !dismissed) {
+    document.getElementById('install-banner').classList.add('show');
+  }
+}
+
+function dismissInstall() {
+  document.getElementById('install-banner').classList.remove('show');
+  localStorage.setItem('rmc_install_dismissed','1');
+}
+
+// =====================
+// QUIZ
+// =====================
+function startQuiz() {
+  const sub = document.getElementById('filter-subject').value;
+  const yr = document.getElementById('filter-year').value;
+  const mode = document.getElementById('filter-mode').value;
+
+  let pool = QUESTIONS.filter(q=>{
+    if(sub!=='all' && q.subject!==sub) return false;
+    if(yr!=='all' && String(q.year)!==yr) return false;
+    if(mode==='wrong') return ST.wrongMap[q.id];
+    if(mode==='unseen') return !ST.seenMap[q.id];
+    return true;
+  });
+
+  if(pool.length===0){ alert('該当する問題がありません。フィルターを変更してください。'); return; }
+  pool = pool.sort(()=>Math.random()-0.5).slice(0, Math.min(pool.length,20));
+
+  ST.sessionQs = pool;
+  ST.idx = 0;
+  ST.sessionResults = [];
+
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.querySelectorAll('.tab-item').forEach(t=>t.classList.remove('active'));
+  document.getElementById('view-quiz').classList.add('active');
+  document.getElementById('content-area').scrollTop = 0;
+  renderQ();
+}
+
+function renderQ() {
+  const q = ST.sessionQs[ST.idx];
+  const total = ST.sessionQs.length;
+  ST.answered = false;
+
+  document.getElementById('q-counter').textContent = `${ST.idx+1} / ${total}`;
+  document.getElementById('q-subject-label').textContent = q.subject;
+  document.getElementById('q-badge-sub').textContent = q.subject;
+  document.getElementById('q-badge-year').textContent = q.year+'年';
+  document.getElementById('q-badge-num').textContent = '第'+q.num+'問';
+  document.getElementById('q-text').textContent = q.text;
+  document.getElementById('quiz-prog').style.width = (ST.idx/total*100)+'%';
+
+  document.getElementById('result-banner').className = 'result-banner';
+  document.getElementById('exp-box').className = 'exp-box';
+  document.getElementById('btn-skip').style.display = '';
+  document.getElementById('btn-next').style.display = 'none';
+
+  const labels = ['ア','イ','ウ','エ'];
+  document.getElementById('choices').innerHTML = q.choices.map((c,i)=>
+    `<button class="choice-btn" onclick="selectChoice(${i})">
+      <span class="choice-label">${labels[i]}</span>
+      <span>${c}</span>
+    </button>`
+  ).join('');
+}
+
+function selectChoice(idx) {
+  if(ST.answered) return;
+  ST.answered = true;
+  const q = ST.sessionQs[ST.idx];
+  const correct = idx===q.answer;
+
+  ST.seenMap[q.id] = true;
+  if(!correct) ST.wrongMap[q.id] = true;
+  else delete ST.wrongMap[q.id];
+  saveLocal();
+  ST.sessionResults.push({qid:q.id, subject:q.subject, correct});
+
+  document.querySelectorAll('.choice-btn').forEach((btn,i)=>{
+    btn.classList.add('disabled');
+    if(i===q.answer) btn.classList.add('correct');
+    if(i===idx && !correct) btn.classList.add('incorrect');
+  });
+
+  const banner = document.getElementById('result-banner');
+  banner.className = 'result-banner show '+(correct?'correct-banner':'wrong-banner');
+  document.getElementById('result-icon').textContent = correct?'✓':'✗';
+  document.getElementById('result-msg').textContent = correct ? '正解！' : '不正解。正解は「'+['ア','イ','ウ','エ'][q.answer]+'」です。';
+
+  document.getElementById('exp-box').className = 'exp-box show';
+  document.getElementById('exp-text').textContent = q.explanation;
+
+  document.getElementById('btn-skip').style.display = 'none';
+  document.getElementById('btn-next').style.display = '';
+  document.getElementById('content-area').scrollTop = 0;
+}
+
+function nextQ(skip) {
+  if(!skip && !ST.answered) return;
+  ST.idx++;
+  if(ST.idx>=ST.sessionQs.length) endQuiz();
+  else { renderQ(); document.getElementById('content-area').scrollTop=0; }
+}
+
+function endQuiz() {
+  const results = ST.sessionResults;
+  const total = results.length;
+  const correct = results.filter(r=>r.correct).length;
+  const pct = total>0?Math.round(correct/total*100):0;
+
+  ST.lastWrongIds = results.filter(r=>!r.correct).map(r=>r.qid);
+
+  const entry = {
+    date: new Date().toISOString(),
+    total, correct, pct, results,
+    label: document.getElementById('filter-subject').value==='all'?'全科目':document.getElementById('filter-subject').value
+  };
+  ST.history.unshift(entry);
+  if(ST.history.length>50) ST.history.length=50;
+  saveLocal();
+
+  document.getElementById('res-pct').textContent = pct+'%';
+  document.getElementById('res-c').textContent = correct;
+  document.getElementById('res-w').textContent = total-correct;
+  document.getElementById('res-t').textContent = total;
+
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.getElementById('view-result').classList.add('active');
+  document.getElementById('content-area').scrollTop=0;
+}
+
+function quitQuiz() {
+  if(ST.sessionResults.length>0) endQuiz();
+  else showTab('home');
+}
+
+function showResultReview() {
+  renderReview(ST.lastWrongIds);
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.querySelectorAll('.tab-item').forEach(t=>t.classList.remove('active'));
+  document.getElementById('view-review').classList.add('active');
+  document.getElementById('tab-review').classList.add('active');
+  document.getElementById('content-area').scrollTop=0;
+}
+
+// =====================
+// REVIEW
+// =====================
+function renderReview(qidList) {
+  let qs;
+  if(qidList) {
+    qs = qidList.map(id=>QUESTIONS.find(q=>q.id===id)).filter(Boolean);
+  } else {
+    const wrongIds = Object.keys(ST.wrongMap).map(Number);
+    qs = QUESTIONS.filter(q=>wrongIds.includes(q.id));
+  }
+  const labels = ['ア','イ','ウ','エ'];
+  const container = document.getElementById('review-list');
+  if(qs.length===0){
+    container.innerHTML='<div class="empty-state"><div class="empty-icon">🎉</div>間違えた問題はありません！</div>';
+    return;
+  }
+  container.innerHTML = qs.map(q=>`
+    <div class="review-card">
+      <div class="q-badges" style="margin-bottom:10px">
+        <span class="badge blue">${q.subject}</span>
+        <span class="badge">${q.year}年 第${q.num}問</span>
+      </div>
+      <div class="review-q">${q.text}</div>
+      <div class="review-choices">
+        ${q.choices.map((c,i)=>`
+          <div class="review-choice ${i===q.answer?'answer':''}">
+            <span style="font-family:'DM Mono',monospace;font-size:11px;flex-shrink:0">${labels[i]}</span>
+            <span>${c}</span>
+            ${i===q.answer?'<span style="margin-left:auto;flex-shrink:0;font-size:10px">✓</span>':''}
+          </div>`).join('')}
+      </div>
+      <div class="review-exp-mini">📝 ${q.explanation}</div>
+    </div>`).join('');
+}
+
+// =====================
+// HISTORY
+// =====================
+function renderHistory() {
+  const container = document.getElementById('history-list');
+  if(ST.history.length===0){
+    container.innerHTML='<div class="empty-state"><div class="empty-icon">📋</div>まだ演習の記録がありません</div>';
+    return;
+  }
+  container.innerHTML = ST.history.map(h=>{
+    const d = new Date(h.date);
+    const ds = `${d.getMonth()+1}/${d.getDate()}\n${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
+    return `<div class="history-item">
+      <div class="history-date">${ds}</div>
+      <div class="history-label">${h.label}<br><span style="color:var(--text3);font-size:10px">${h.total}問出題</span></div>
+      <div class="history-score">${h.correct}/${h.total}</div>
+      <div class="history-pct">${h.pct}%</div>
+    </div>`;
+  }).join('');
+}
+
+// =====================
+// UTILS
+// =====================
+function saveLocal() {
+  localStorage.setItem('rmc_history', JSON.stringify(ST.history));
+  localStorage.setItem('rmc_wrong', JSON.stringify(ST.wrongMap));
+  localStorage.setItem('rmc_seen', JSON.stringify(ST.seenMap));
+}
+
+// Header date
+function updateDate() {
+  const now = new Date();
+  const days = ['日','月','火','水','木','金','土'];
+  document.getElementById('header-date').textContent =
+    `${now.getMonth()+1}/${now.getDate()}（${days[now.getDay()]}）`;
+}
+updateDate();
+
+// Service Worker
+if('serviceWorker' in navigator) {
+  window.addEventListener('load', ()=>{
+    navigator.serviceWorker.register('./sw.js').catch(()=>{});
+  });
+}
+
+// Init
+renderHome();
+</script>
+</body>
+</html>
