@@ -1,4 +1,4 @@
-const CACHE_NAME = 'rmc-study-v5';
+const CACHE_NAME = 'rmc-study-v8';
 const ASSETS = [
   './',
   './index.html',
